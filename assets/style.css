@@ -11,3 +11,36 @@
 @media(max-width:820px){.site-header nav{display:none}.container{padding-left:22px;padding-right:22px}.section{padding:63px 0}.hero h1{white-space:normal;font-size:clamp(43px,7vw,64px)}.hero-layout{padding-bottom:76px}.section-header{display:block}.section-header p{margin-top:12px}.features-grid,.info-grid{grid-template-columns:repeat(2,1fr)}.guide-grid{grid-template-columns:repeat(3,1fr)}.intro-guide{grid-template-columns:1fr}.intro-guide img{height:260px}.beta-panel{padding:26px;gap:16px}.download-card{grid-template-columns:52px 1fr}.download-icon{width:52px;height:52px}}
 @media(max-width:560px){.nav-wrap{height:65px}.brand{font-size:15px}.brand-icon{height:36px;width:36px}.nav-download{font-size:11px;padding:6px 9px}.nav-download span{display:none}.hero-layout{padding-top:46px}.hero h1{font-size:43px;letter-spacing:-1.4px}.hero-lead{font-size:24px}.hero-text{font-size:15px}.hero-facts{gap:11px}.app-window{transform:none}.floating-note{position:relative;bottom:auto;left:auto;display:inline-block;margin:12px 0 0}.features-grid,.info-grid,.downloads-grid{grid-template-columns:1fr}.guide-grid{grid-template-columns:repeat(2,1fr);gap:10px}.guide-card img{height:115px}.intro-guide{gap:4px}.intro-guide img{height:190px}.intro-guide>div{padding:10px}.beta-mark{width:42px;height:42px;font-size:35px}.beta-panel{gap:12px}.beta-panel h2{font-size:24px}.footer-inner{display:block}.footer-inner>div+div{margin-top:16px}.download-card{padding:17px}.download-card h3{font-size:17px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
+
+/* About EPPS: project purpose, voluntary thanks, print-media scope, documented drivers */
+.section-about{background:linear-gradient(135deg,#081c28,#0b2530);border-bottom:1px solid #25505c}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.about-card{background:linear-gradient(145deg,#123441,#102532);border:1px solid #326070;border-radius:var(--radius);padding:29px 31px}
+.about-donate{background:linear-gradient(140deg,#173e39,#102932);border-color:#267c6b}
+.about-label,.scope-label{display:inline-block;color:#72ebc2;font-size:11px;font-weight:800;letter-spacing:1.25px}
+.about-card h3{font-size:clamp(22px,2vw,28px);line-height:1.24;margin:11px 0 17px;letter-spacing:-.5px}
+.about-card p{color:#c6d9df;font-size:15px;line-height:1.73;margin:0 0 12px}
+.about-card p:last-child{margin-bottom:0}
+.about-card strong{color:#f1fffa}
+.about-card .about-footnote{font-size:13px;color:#9ebfc1;margin-top:16px}
+.scope-panel{margin-top:24px;background:linear-gradient(120deg,#14323d,#102d31);border:1px solid #38796f;border-radius:18px;padding:26px 30px}
+.scope-panel h3{font-size:24px;line-height:1.25;margin:9px 0 10px}
+.scope-panel p{font-size:15px;color:#c5d8df;line-height:1.7;margin:0;max-width:1100px}
+.scope-panel strong{color:#a2fbdc}
+.driver-versions{margin-top:25px;background:#112735;border:1px solid #325c69;border-radius:18px;padding:28px 30px}
+.driver-table-heading{display:flex;gap:28px;align-items:end;justify-content:space-between;margin-bottom:21px}
+.driver-table-heading h3{font-size:28px;letter-spacing:-.7px;margin:6px 0 0}
+.driver-table-heading p{max-width:690px;color:#a9c5d0;font-size:14px;line-height:1.55;margin:0}
+.driver-table-wrap{overflow-x:auto;border:1px solid #315866;border-radius:12px}
+.driver-table{width:100%;border-collapse:collapse;min-width:570px;font-variant-numeric:tabular-nums}
+.driver-table th,.driver-table td{padding:13px 17px;text-align:left;border-bottom:1px solid #244b57;font-size:14px}
+.driver-table thead th{background:#163d49;color:#bff6e6;font-size:12px;letter-spacing:.2px;font-weight:750}
+.driver-table tbody th{color:#edfdfa;font-weight:700}
+.driver-table tbody td{color:#b7d3df}
+.driver-table tbody tr:nth-child(even){background:#14303d}
+.driver-table tbody tr:last-child th,.driver-table tbody tr:last-child td{border-bottom:0}
+.driver-caution{margin:17px 0 0;color:#f7d8aa;font-size:13.5px;line-height:1.65;border-left:3px solid #dfad54;padding:5px 0 5px 14px}
+.driver-caution strong{color:#ffdfa8}
+@media(max-width:980px){.about-grid{grid-template-columns:1fr}.driver-table-heading{display:block}.driver-table-heading p{margin-top:9px}.about-card{padding:25px}.driver-versions{padding:23px}}
+@media(max-width:560px){.scope-panel,.driver-versions{padding:19px}.driver-table-heading h3{font-size:23px}.driver-table th,.driver-table td{padding:11px 12px}.about-card h3{font-size:23px}}
