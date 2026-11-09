@@ -68,8 +68,8 @@ async function fetchCompleteRelease(version) {
 }
 async function bindReleaseDownloads() {
   try {
-    // Keep v1.4.89 downloads live until BOTH v1.4.90 binaries exist in GitHub Releases.
-    const published = (await fetchCompleteRelease("1.4.90")) || (await fetchCompleteRelease("1.4.89"));
+    // Current published release only; static v1.4.90 links remain usable if API is unavailable.
+    const published = await fetchCompleteRelease("1.4.90");
     if (!published) return;
     const version = published.version;
     // Show the v1.4.90-specific capabilities only when both public assets are available.
@@ -125,7 +125,7 @@ async function bindReleaseDownloads() {
       if (counter) counter.textContent = "Скачиваний: " + new Intl.NumberFormat("ru-RU").format(asset.download_count ?? 0);
     }
   } catch (_error) {
-    // Static fallback links always lead to a previously published version.
+    // Static fallback links point to the current v1.4.90 release.
   }
 }
 bindReleaseDownloads();
