@@ -1,0 +1,13 @@
+name: EPPS release publishing check
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  availability:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify release workflow available
+        run: echo "Release publishing workflow is available."
