@@ -48,25 +48,49 @@ document.getElementById("dialog-prev").addEventListener("click", () => showGuide
 document.getElementById("dialog-next").addEventListener("click", () => showGuide(openedIndex + 1));
 dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); });
 dialog.addEventListener("keydown", e => { if (e.key === "ArrowLeft") showGuide(openedIndex - 1); if (e.key === "ArrowRight") showGuide(openedIndex + 1); });
+async function fetchCompleteRelease(version) {
+  const url = "https://api.github.com/repos/" + repo + "/releases/tags/v" + version;
+  const response = await fetch(url, { headers: { Accept: "application/vnd.github+json" } });
+  if (!response.ok) return null;
+  const release = await response.json();
+  const versionSlug = version.replaceAll(".", "_");
+  const filenames = {
+    setup: "EcoPrint_Photo_Studio_Setup_v" + version + ".exe",
+    portable: "EcoPrint_Photo_Studio_v" + versionSlug + "_WIN10_x64.zip"
+  };
+  const assets = {};
+  for (const [kind, filename] of Object.entries(filenames)) {
+    const asset = release.assets?.find(item => item.name === filename);
+    if (!asset || !asset.browser_download_url) return null;
+    assets[kind] = asset;
+  }
+  return { version, assets };
+}
 async function bindReleaseDownloads() {
-  const releaseApi = `https://api.github.com/repos/${repo}/releases/tags/v1.4.89`;
   try {
-    const resp = await fetch(releaseApi, { headers: { Accept: "application/vnd.github+json" } });
-    if (!resp.ok) return;
-    const release = await resp.json();
-    const pairs = [
-      ["setup", "EcoPrint_Photo_Studio_Setup_v1.4.89.exe"],
-      ["portable", "EcoPrint_Photo_Studio_v1_4_89_WIN10_x64.zip"]
-    ];
-    for (const [kind, filename] of pairs) {
-      const asset = release.assets?.find(item => item.name === filename);
-      if (!asset) continue;
-      const anchor = document.getElementById(`${kind}-download`);
+    // Keep v1.4.89 downloads live until BOTH v1.4.90 binaries exist in GitHub Releases.
+    const published = (await fetchCompleteRelease("1.4.90")) || (await fetchCompleteRelease("1.4.89"));
+    if (!published) return;
+    const version = published.version;
+    const nav = document.querySelector(".nav-download");
+    if (nav) nav.innerHTML = "v" + version + " <span>· Open Beta</span>";
+    const kicker = document.querySelector("#top .kicker");
+    if (kicker) kicker.innerHTML = '<span class="live-dot"></span> Открытый бета-тест · Версия ' + version;
+    const heroButton = document.querySelector(".hero-actions .btn.primary");
+    if (heroButton) heroButton.innerHTML = '<span aria-hidden="true">↓</span> К загрузке v' + version;
+    const heading = document.querySelector("#downloads .section-header .eyebrow");
+    if (heading) heading.textContent = "ВЕРСИЯ " + version + " · OPEN BETA";
+    for (const [kind, asset] of Object.entries(published.assets)) {
+      const anchor = document.getElementById(kind + "-download");
+      if (!anchor) continue;
       anchor.href = asset.browser_download_url;
       anchor.textContent = "Скачать с GitHub ↓";
-      anchor.setAttribute("aria-label", `Скачать ${filename} с GitHub Releases`);
-      document.getElementById(`${kind}-count`).textContent = `Скачиваний: ${new Intl.NumberFormat("ru-RU").format(asset.download_count ?? 0)}`;
+      anchor.setAttribute("aria-label", "Скачать " + asset.name + " с GitHub Releases");
+      const counter = document.getElementById(kind + "-count");
+      if (counter) counter.textContent = "Скачиваний: " + new Intl.NumberFormat("ru-RU").format(asset.download_count ?? 0);
     }
-  } catch (_error) { /* Статический сайт остаётся доступным без GitHub API. */ }
+  } catch (_error) {
+    // Static fallback links always lead to a previously published version.
+  }
 }
 bindReleaseDownloads();
