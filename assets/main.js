@@ -72,6 +72,41 @@ async function bindReleaseDownloads() {
     const published = (await fetchCompleteRelease("1.4.90")) || (await fetchCompleteRelease("1.4.89"));
     if (!published) return;
     const version = published.version;
+    // Show the v1.4.90-specific capabilities only when both public assets are available.
+    const windowTitle = document.querySelector(".window-bar > span");
+    if (windowTitle) windowTitle.textContent = "EcoPrint Photo Studio · v" + version;
+    if (version === "1.4.90") {
+      const features = document.querySelector(".features-grid");
+      if (features && !document.getElementById("feature-sheet-copies")) {
+        const additions = [
+          ["feature-sheet-copies", "▦", "Копии фото и готовых листов", "Отдельное управление числом копий исходных снимков и готовых листов, включая массовое применение."],
+          ["feature-print-progress", "⇢", "Контроль передачи в печать", "Окно отправки в очередь Windows с прогрессом по физическим листам, отменой и результатом операции."]
+        ];
+        for (const [id, symbol, title, description] of additions) {
+          const card = document.createElement("article");
+          card.id = id; card.className = "feature-card";
+          const badge = document.createElement("div");
+          badge.className = "feature-icon"; badge.textContent = symbol;
+          const h = document.createElement("h3"); h.textContent = title;
+          const p = document.createElement("p"); p.textContent = description;
+          card.append(badge, h, p); features.append(card);
+        }
+      }
+      const downloads = document.querySelector("#downloads .downloads-grid");
+      if (downloads && !document.getElementById("release-notes-link")) {
+        const p = document.createElement("p");
+        p.id = "release-notes-link";
+        p.className = "download-disclaimer";
+        const a = document.createElement("a");
+        a.href = "https://github.com/" + repo + "/blob/main/releases/v1.4.90.md";
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.textContent = "Что нового в версии 1.4.90 и контрольные суммы SHA-256";
+        p.append(a);
+        downloads.insertAdjacentElement("afterend", p);
+      }
+    }
+
     const nav = document.querySelector(".nav-download");
     if (nav) nav.innerHTML = "v" + version + " <span>· Open Beta</span>";
     const kicker = document.querySelector("#top .kicker");
